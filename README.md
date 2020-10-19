@@ -5,11 +5,17 @@ Packet Monitor (PacketMon) generates logs in etl format. These logs can be analy
 Follow these steps to install and configure Netmon to parse PacketMon-generated etl files:
 
 -Install Network Monitor 3.4 from https://www.microsoft.com/en-us/download/4865.
+
 -Start Network Monitor elevated and set Windows as Active parser profile at (Tools / Options / Parser Profiles).
+
 -Copy etl_Microsoft-Windows-PktMon-Events.npl from https://github.com/microsoft/NetMon_Parsers_for_PacketMon/blob/main/etl_Microsoft-Windows-PktMon-Events.npl to -"%PROGRAMDATA%\Microsoft\Network Monitor 3\NPL\NetworkMonitor Parsers\Windows"
+
 -Copy stub_etl_Microsoft-Windows-PktMon-Events.npl from https://github.com/microsoft/NetMon_Parsers_for_PacketMon/blob/main/stub_etl_Microsoft-Windows-PktMon-Events.npl to "%PROGRAMDATA%\Microsoft\Network -Monitor 3\NPL\NetworkMonitor Parsers\Windows\Stubs"
+
 -Rename stub_etl_Microsoft-Windows-PktMon-Events.npl to etl_Microsoft-Windows-PktMon-Events.npl
+
 -Include etl_Microsoft-Windows-PktMon-Events.npl into NetworkMonitor_Parsers_sparser.npl at "%PROGRAMDATA%\Microsoft\Network Monitor 3\NPL\NetworkMonitor Parsers"
+
 -Restart Network Monitor elevated for rebuilding the parsers.
 
 ## Contributing

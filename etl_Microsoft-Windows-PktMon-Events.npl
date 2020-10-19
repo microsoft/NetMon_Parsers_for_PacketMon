@@ -1,0 +1,513 @@
+//#  (c) 2009 Microsoft Corporation
+//#
+//#  Title:                  Microsoft-Windows-Microsoft-Windows-PktMon-Events
+//#
+//#  Details:                
+//#
+//#  Public References:      Microsoft-Windows-PktMon-Events.man
+//#
+//#  Comments:               
+//#
+//#  Revision Class and Date:Minor, 8/16/2018
+//#
+//####
+[RegisterBefore(NetEvent.UserData, MicrosoftWindowsPktMon, "{4d4f80d9-c8bd-4d73-bb5b-19c90402c5ac}")]
+Protocol PktMon_MicrosoftWindowsPktMon = property.ETLSummary
+{
+	[BuildConversationWithParent, conversation.ConversationDescription = ""]
+	switch(property.EventID)
+	{
+		case 10: [property.ETLSummary = this.ToString] PktMon_DriverEntryFailed DriverEntryFailed;
+		case 20: [property.ETLSummary = this.ToString] PktMon_ComponentInfo ComponentInfo;
+		case 30: [property.ETLSummary = this.ToString] PktMon_CompPropUint CompPropUint;
+		case 40: [property.ETLSummary = this.ToString] PktMon_CompPropGuid CompPropGuid;
+		case 50: [property.ETLSummary = this.ToString] PktMon_CompPropHex32 CompPropHex32;
+		case 60: [property.ETLSummary = this.ToString] PktMon_CompPropNdisMedium CompPropNdisMedium;
+		case 70: [property.ETLSummary = this.ToString] PktMon_CompPropBinary CompPropBinary;
+		case 73: [property.ETLSummary = this.ToString] PktMon_CompPropString CompPropString;
+		case 75: [property.ETLSummary = this.ToString] PktMon_CompPropEtherType CompPropEtherType;
+		case 80: [property.ETLSummary = this.ToString] PktMon_PacketDropCounters PacketDropCounters;
+		case 90: [property.ETLSummary = this.ToString] PktMon_PacketFlowCounters PacketFlowCounters;
+		case 100: [property.ETLSummary = this.ToString] PktMon_PktFilterIPv4 PktFilterIPv4;
+		case 110: [property.ETLSummary = this.ToString] PktMon_PktFilterIPv6 PktFilterIPv6;
+		case 120: [property.ETLSummary = this.ToString] PktMon_NblParsedIpv4 NblParsedIpv4;
+		case 130: [property.ETLSummary = this.ToString] PktMon_NblParsedIpv6 NblParsedIpv6;
+		case 140: [property.ETLSummary = this.ToString] PktMon_NblParsedDropIpv4 NblParsedDropIpv4;
+		case 150: [property.ETLSummary = this.ToString] PktMon_NblParsedDropIpv6 NblParsedDropIpv6;
+		case 160: [property.ETLSummary = this.ToString] PktMon_FramePayload FramePayload;
+		case 170: [property.ETLSummary = this.ToString] PktMon_FrameDropPayload FrameDropPayload;
+		case 180: [property.ETLSummary = this.ToString] PktMon_PktNblInfo PktNblInfo;
+		case 190: [property.ETLSummary = this.ToString] PktMon_PktDropNblInfo PktDropNblInfo;
+		default: [property.ETLSummary = "Not exist EventID"]struct{};
+	}
+}
+Table PktMon_ComponentType(value)
+{
+	switch(value)
+	{
+		case 1: "NDIS";
+		case 2: "Miniport";
+		case 3: "Filter";
+		case 4: "Protocol";
+		case 5: "VmsVmNic";
+		case 6: "VmsMiniport";
+		case 7: "VmsExtMiniport";
+		case 8: "VmsProtocolNic";
+		case 9: "NetVsc Miniport";
+		default:
+			FormatString("Unknown value: %d", value);
+	}
+}
+Table PktMon_PropertyType(value)
+{
+	switch(value)
+	{
+		case 1: "IfIndex";
+		case 2: "MiniportIfIndex";
+		case 3: "LowerIfIndex";
+		case 4: "IfGuid";
+		case 5: "NdisMedium";
+		case 6: "PhysAddress";
+		case 7: "EtherType";
+		case 8: "OptDataPath";
+		case 9: "NdisObject";
+		case 10: "VMSwitchName";
+		case 11: "VmsExtIfIndex";
+		case 12: "LowestIfIndex";
+		default:
+			FormatString("Unknown value: %d", value);
+	}
+}
+Table PktMon_NdisMedium(value)
+{
+	switch(value)
+	{
+		case 0: "Ethernet";
+		case 16: "WiFi";
+		case 19: "MBB";
+		default:
+			FormatString("Unknown value: %d", value);
+	}
+}
+Table PktMon_PacketDirectionTag(value)
+{
+	switch(value)
+	{
+		case 0: "None";
+		case 1: "In";
+		case 2: "Out";
+		case 3: "Rx";
+		case 4: "Tx";
+		case 5: "Ingress";
+		case 6: "Egress";
+		default:
+			FormatString("Unknown value: %d", value);
+	}
+}
+Table PktMon_PacketType(value)
+{
+	switch(value)
+	{
+		case 0: "Unknown";
+		case 1: "Ethernet";
+		case 2: "WiFi";
+		case 3: "MBB";
+		default:
+			FormatString("Unknown value: %d", value);
+	}
+}
+Table PktMon_EtherType(value)
+{
+	switch(value)
+	{
+		case 0x0800: "IPv4";
+		case 0x86DD: "IPv6";
+		case 0x0806: "ARP";
+		case 0x8100: "VLAN";
+		case 0x88CC: "LLDP";
+		case 0x88D9: "LLTD";
+		default:
+			FormatString("Unknown value: %d", value);
+	}
+}
+Table PktMon_IPProtocol(value)
+{
+	switch(value)
+	{
+		case 0x01: "ICMP";
+		case 0x06: "TCP";
+		case 0x11: "UDP";
+		case 0x3A: "ICMPv6";
+		default:
+			FormatString("Unknown value: %d", value);
+	}
+}
+Table PktMon_DropReason(value)
+{
+	switch(value)
+	{
+		case 0: "Unspecified";
+		case 1: "Invalid Data";
+		case 2: "Invalid Packet";
+		case 3: "Insufficient resources";
+		case 4: "Adapter not ready";
+		case 5: "Media Disconnected";
+		case 6: "Not accepted";
+		case 7: "Device busy";
+		case 8: "Filtered";
+		case 9: "Filtered VLAN";
+		case 10: "Unauthorized VLAN";
+		case 11: "Unauthorized MAC";
+		case 12: "Failed security policy";
+		case 13: "Failed pVlan setting";
+		case 14: "QoS drop";
+		case 15: "IPSec drop";
+		case 16: "Spoofed MAC address is not allowed";
+		case 17: "Failed DHCP guard";
+		case 18: "Failed Router Guard";
+		case 19: "Bridge is not allowed inside VM";
+		case 20: "Virtual Subnet ID does not match";
+		case 21: "Required vSwitch extension is missing";
+		case 22: "Creating vSwitch over another vSwitch is not allowed";
+		case 23: "MTU mismatch";
+		case 24: "Native forwarding required";
+		case 25: "Invalid VLAN format";
+		case 26: "Invalid destination MAC";
+		case 27: "Invalid source MAC";
+		case 28: "First NB too small";
+		case 29: "Windows Network Virtualization error";
+		case 30: "Storm limit exceeded";
+		case 31: "ICMP request injected by switch";
+		case 32: "Failed to update destination list";
+		case 33: "Destination NIC is disabled";
+		case 34: "Packet does not match destination NIC packet filter";
+		case 35: "vSwitch data flow is disabled";
+		case 36: "Port isolation setting does not allow untagged traffic";
+		case 37: "Invalid PD queue";
+		case 38: "Adapter is in low power state";
+		case 101: "Adapter paused";
+		case 102: "Adapter reset in progress";
+		case 103: "Send aborted";
+		case 104: "Unsupported EtherType";
+		case 201: "Microport error";
+		case 202: "VF not ready";
+		case 203: "Microport not ready";
+		case 204: "VMBus error";
+		default:
+			FormatString("Unknown value: %d", value);
+	}
+}
+struct PktMon_TCPFlags = Local.BitMapSummary
+{
+	UINT8 BitfieldFIN:1 = FormatString("(%s) %s", this.ToBitString, this? "FIN":"");
+	UINT8 BitfieldSYN:1 = FormatString("(%s) %s", this.ToBitString, this? "SYN":"");
+	UINT8 BitfieldRST:1 = FormatString("(%s) %s", this.ToBitString, this? "RST":"");
+	UINT8 BitfieldPSH:1 = FormatString("(%s) %s", this.ToBitString, this? "PSH":"");
+	UINT8 BitfieldACK:1 = FormatString("(%s) %s", this.ToBitString, this? "ACK":"");
+	UINT8 BitfieldURG:1 = FormatString("(%s) %s", this.ToBitString, this? "URG":"");
+	UINT8 BitfieldECE:1 = FormatString("(%s) %s", this.ToBitString, this? "ECE":"");
+	UINT8 BitfieldCWR:1 = FormatString("(%s) %s", this.ToBitString, this? "CWR":"");
+	[Local.BitMapSummary =
+		(BitfieldFIN? "FIN" + " " : "") +
+		(BitfieldSYN? "SYN" + " " : "") +
+		(BitfieldRST? "RST" + " " : "") +
+		(BitfieldPSH? "PSH" + " " : "") +
+		(BitfieldACK? "ACK" + " " : "") +
+		(BitfieldURG? "URG" + " " : "") +
+		(BitfieldECE? "ECE" + " " : "") +
+		(BitfieldCWR? "CWR" + " " : "") +
+		""]
+	struct{}
+}
+Struct PktMon_DriverEntryFailed = FormatString("PktMon driver failed to load. Error: %s.", Status.ToString)
+{
+	NTSTATUS Status;
+}
+Struct PktMon_ComponentInfo = FormatString("Component: Id %s, Type %s, Name %s, %s", Id.ToString, Type.ToString, Name.ToString, Description.ToString)
+{
+	UINT16 Id;
+	UINT16 Type = PktMon_ComponentType(this);
+	UnicodeString Name;
+	UnicodeString Description;
+}
+Struct PktMon_CompPropUint = FormatString("Property: Component Id %s, %s = %s", ComponentId.ToString, Type.ToString, Value.ToString)
+{
+	UINT16 ComponentId;
+	UINT16 Type = PktMon_PropertyType(this);
+	UINT32 Value;
+}
+Struct PktMon_CompPropGuid = FormatString("Property: Component Id %s, %s = %s", ComponentId.ToString, Type.ToString, Value.ToString)
+{
+	UINT16 ComponentId;
+	UINT16 Type = PktMon_PropertyType(this);
+	GUID(true) Value;
+}
+Struct PktMon_CompPropHex32 = FormatString("Property: Component Id %s, %s = %s", ComponentId.ToString, Type.ToString, Value.ToString)
+{
+	UINT16 ComponentId;
+	UINT16 Type = PktMon_PropertyType(this);
+	UINT32 Value;
+}
+Struct PktMon_CompPropNdisMedium = FormatString("Property: Component Id %s, %s = %s", ComponentId.ToString, Type.ToString, Value.ToString)
+{
+	UINT16 ComponentId;
+	UINT16 Type = PktMon_PropertyType(this);
+	UINT16 Value = PktMon_NdisMedium(this);
+}
+Struct PktMon_CompPropBinary = FormatString("Property: Component Id %s, %s = %s", ComponentId.ToString, Type.ToString, Value.ToString)
+{
+	UINT16 ComponentId;
+	UINT16 Type = PktMon_PropertyType(this);
+	UINT32 Size;
+	BLOB(Size) Value;
+}
+Struct PktMon_CompPropString = FormatString("Property: Component Id %s, %s = %s", ComponentId.ToString, Type.ToString, Value.ToString)
+{
+	UINT16 ComponentId;
+	UINT16 Type = PktMon_PropertyType(this);
+	UnicodeString Value;
+}
+Struct PktMon_CompPropEtherType = FormatString("Property: Component Id %s, %s = %s", ComponentId.ToString, Type.ToString, EtherType.ToString)
+{
+	UINT16 ComponentId;
+	UINT16 Type = PktMon_PropertyType(this);
+	UINT16 EtherType = PktMon_EtherType(this);
+}
+Struct PktMon_PacketDropCounters = FormatString("Drop Counters: Component Id %s, Direction In = %s, Packets In %s, Bytes In %s, Direction Out = %s, Packets Out %s, Bytes Out %s", ComponentId.ToString, DirTagIn.ToString, PacketsIn.ToString, BytesIn.ToString, DirTagOut.ToString, PacketsOut.ToString, BytesOut.ToString)
+{
+	UINT16 ComponentId;
+	UINT16 DirTagIn = PktMon_PacketDirectionTag(this);
+	UINT64 PacketsIn;
+	UINT64 BytesIn;
+	UINT16 DirTagOut = PktMon_PacketDirectionTag(this);
+	UINT64 PacketsOut;
+	UINT64 BytesOut;
+}
+Struct PktMon_PacketFlowCounters = FormatString("Flow Counters: Component Id %s, Edge %s, Edge Id %s, Direction In = %s, Packets In %s, Bytes In %s, Direction Out = %s, Packets Out %s, Bytes Out %s", ComponentId.ToString, EdgeName.ToString, EdgeId.ToString, DirTagIn.ToString, PacketsIn.ToString, BytesIn.ToString, DirTagOut.ToString, PacketsOut.ToString, BytesOut.ToString)
+{
+	UINT16 ComponentId;
+	UnicodeString EdgeName;
+	UINT16 EdgeId;
+	UINT16 DirTagIn = PktMon_PacketDirectionTag(this);
+	UINT64 PacketsIn;
+	UINT64 BytesIn;
+	UINT16 DirTagOut = PktMon_PacketDirectionTag(this);
+	UINT64 PacketsOut;
+	UINT64 BytesOut;
+}
+Struct PktMon_PktFilterIPv4 = FormatString("Packet Filter %s, Name %s, MAC-1 %s, MAC-2 %s, EtherType %s, VlanId %s, IP-1 %s, IP-2 %s, Protocol %s, Port-1 %s, Port-2 %s, TCPFlags %s", FilterId.ToString, FilterName.ToString, MacAddress1.ToString, MacAddress2.ToString, EtherType.ToString, VlanId.ToString, IpAddress1.ToString, IpAddress2.ToString, Protocol.ToString, Port1.ToString, Port2.ToString, TCPFlags.ToString)
+{
+	UINT16 FilterId;
+	UnicodeString FilterName;
+    [DataFieldByteOrder = BigEndian]MacAddress MacAddress1;
+    [DataFieldByteOrder = BigEndian]MacAddress MacAddress2;
+	UINT16 EtherType = PktMon_EtherType(this);
+	UINT16 VlanId;
+	[DataFieldByteOrder = BigEndian]IPv4Address IpAddress1;
+	[DataFieldByteOrder = BigEndian]IPv4Address IpAddress2;
+	UINT8 Protocol = PktMon_IPProtocol(this);
+	UINT16 Port1;
+	UINT16 Port2;
+	PktMon_TCPFlags TCPFlags;
+}
+Struct PktMon_PktFilterIPv6 = FormatString("Packet Filter %s, Name %s, MAC-1 %s, MAC-2 %s, EtherType %s, VlanId %s, IP-1 %s, IP-2 %s, Protocol %s, Port-1 %s, Port-2 %s, TCPFlags %s", FilterId.ToString, FilterName.ToString, MacAddress1.ToString, MacAddress2.ToString, EtherType.ToString, VlanId.ToString, IpAddress1.ToString, IpAddress2.ToString, Protocol.ToString, Port1.ToString, Port2.ToString, TCPFlags.ToString)
+{
+	UINT16 FilterId;
+	UnicodeString FilterName;
+    [DataFieldByteOrder = BigEndian]MacAddress MacAddress1;
+    [DataFieldByteOrder = BigEndian]MacAddress MacAddress2;
+	UINT16 EtherType = PktMon_EtherType(this);
+	UINT16 VlanId;
+	[DataFieldByteOrder = BigEndian]IPv6Address IpAddress1;
+	[DataFieldByteOrder = BigEndian]IPv6Address IpAddress2;
+	UINT8 Protocol = PktMon_IPProtocol(this);
+	UINT16 Port1;
+	UINT16 Port2;
+	PktMon_TCPFlags TCPFlags;
+}
+Struct PktMon_NblParsedIpv4 = FormatString("MAC Dest %s, MAC Src %s, EtherType %s, VlanId %s, IP Dest %s, IP Src %s, Protocol %s, Port Dest %s, Port Src %s, TCPFlags %s, PktGroupId %s, PktCount %s, Appearance %s, Direction %s, Type %s, Component %s, Edge %s, Filter %s", DestinationMAC.ToString, SourceMAC.ToString, EtherType.ToString, VlanId.ToString, DestinationIP.ToString, SourceIP.ToString, Protocol.ToString, DestinationPort.ToString, SourcePort.ToString, TCPFlags.ToString, PktGroupId.ToString, PktCount.ToString, AppearanceCount.ToString, DirTag.ToString, PacketType.ToString, ComponentId.ToString, EdgeId.ToString, FilterId.ToString)
+{
+    [DataFieldByteOrder = BigEndian]MacAddress DestinationMAC;
+    [DataFieldByteOrder = BigEndian]MacAddress SourceMAC;
+	UINT16 EtherType = PktMon_EtherType(this);
+	UINT16 VlanId;
+	[DataFieldByteOrder = BigEndian]IPv4Address DestinationIP;
+	[DataFieldByteOrder = BigEndian]IPv4Address SourceIP;
+	UINT8 Protocol = PktMon_IPProtocol(this);
+	UINT16 DestinationPort;
+	UINT16 SourcePort;
+	PktMon_TCPFlags TCPFlags;
+	UINT64 PktGroupId;
+	UINT16 PktCount;
+	UINT16 AppearanceCount;
+	UINT16 DirTag = PktMon_PacketDirectionTag(this);
+	UINT16 PacketType = PktMon_PacketType(this);
+	UINT16 ComponentId;
+	UINT16 EdgeId;
+	UINT16 FilterId;
+	UINT32 DropReason = PktMon_DropReason(this);
+	UINT32 DropLocation;
+}
+Struct PktMon_NblParsedIpv6 = FormatString("MAC Dest %s, MAC Src %s, EtherType %s, VlanId %s, IP Dest %s, IP Src %s, Protocol %s, Port Dest %s, Port Src %s, TCPFlags %s, PktGroupId %s, PktCount %s, Appearance %s, Direction %s, Type %s, Component %s, Edge %s, Filter %s", DestinationMAC.ToString, SourceMAC.ToString, EtherType.ToString, VlanId.ToString, DestinationIP.ToString, SourceIP.ToString, Protocol.ToString, DestinationPort.ToString, SourcePort.ToString, TCPFlags.ToString, PktGroupId.ToString, PktCount.ToString, AppearanceCount.ToString, DirTag.ToString, PacketType.ToString, ComponentId.ToString, EdgeId.ToString, FilterId.ToString)
+{
+    [DataFieldByteOrder = BigEndian]MacAddress DestinationMAC;
+    [DataFieldByteOrder = BigEndian]MacAddress SourceMAC;
+	UINT16 EtherType = PktMon_EtherType(this);
+	UINT16 VlanId;
+	[DataFieldByteOrder = BigEndian]IPv6Address DestinationIP;
+	[DataFieldByteOrder = BigEndian]IPv6Address SourceIP;
+	UINT8 Protocol = PktMon_IPProtocol(this);
+	UINT16 DestinationPort;
+	UINT16 SourcePort;
+	PktMon_TCPFlags TCPFlags;
+	UINT64 PktGroupId;
+	UINT16 PktCount;
+	UINT16 AppearanceCount;
+	UINT16 DirTag = PktMon_PacketDirectionTag(this);
+	UINT16 PacketType = PktMon_PacketType(this);
+	UINT16 ComponentId;
+	UINT16 EdgeId;
+	UINT16 FilterId;
+	UINT32 DropReason = PktMon_DropReason(this);
+	UINT32 DropLocation;
+}
+Struct PktMon_NblParsedDropIpv4 = FormatString("Drop: MAC Dest %s, MAC Src %s, EtherType %s, VlanId %s, IP Dest %s, IP Src %s, Protocol %s, Port Dest %s, Port Src %s, TCPFlags %s, PktGroupId %s, PktCount %s, Appearance %s, Direction %s, Type %s, Component %s, Edge %s, Filter %s, DropReason %s, DropLocation %s", DestinationMAC.ToString, SourceMAC.ToString, EtherType.ToString, VlanId.ToString, DestinationIP.ToString, SourceIP.ToString, Protocol.ToString, DestinationPort.ToString, SourcePort.ToString, TCPFlags.ToString, PktGroupId.ToString, PktCount.ToString, AppearanceCount.ToString, DirTag.ToString, PacketType.ToString, ComponentId.ToString, EdgeId.ToString, FilterId.ToString, DropReason.ToString, DropLocation.ToString)
+{
+    [DataFieldByteOrder = BigEndian]MacAddress DestinationMAC;
+    [DataFieldByteOrder = BigEndian]MacAddress SourceMAC;
+	UINT16 EtherType = PktMon_EtherType(this);
+	UINT16 VlanId;
+	[DataFieldByteOrder = BigEndian]IPv4Address DestinationIP;
+	[DataFieldByteOrder = BigEndian]IPv4Address SourceIP;
+	UINT8 Protocol = PktMon_IPProtocol(this);
+	UINT16 DestinationPort;
+	UINT16 SourcePort;
+	PktMon_TCPFlags TCPFlags;
+	UINT64 PktGroupId;
+	UINT16 PktCount;
+	UINT16 AppearanceCount;
+	UINT16 DirTag = PktMon_PacketDirectionTag(this);
+	UINT16 PacketType = PktMon_PacketType(this);
+	UINT16 ComponentId;
+	UINT16 EdgeId;
+	UINT16 FilterId;
+	UINT32 DropReason = PktMon_DropReason(this);
+	UINT32 DropLocation;
+}
+Struct PktMon_NblParsedDropIpv6 = FormatString("Drop: MAC Dest %s, MAC Src %s, EtherType %s, VlanId %s, IP Dest %s, IP Src %s, Protocol %s, Port Dest %s, Port Src %s, TCPFlags %s, PktGroupId %s, PktCount %s, Appearance %s, Direction %s, Type %s, Component %s, Edge %s, Filter %s, DropReason %s, DropLocation %s", DestinationMAC.ToString, SourceMAC.ToString, EtherType.ToString, VlanId.ToString, DestinationIP.ToString, SourceIP.ToString, Protocol.ToString, DestinationPort.ToString, SourcePort.ToString, TCPFlags.ToString, PktGroupId.ToString, PktCount.ToString, AppearanceCount.ToString, DirTag.ToString, PacketType.ToString, ComponentId.ToString, EdgeId.ToString, FilterId.ToString, DropReason.ToString, DropLocation.ToString)
+{
+    [DataFieldByteOrder = BigEndian]MacAddress DestinationMAC;
+    [DataFieldByteOrder = BigEndian]MacAddress SourceMAC;
+	UINT16 EtherType = PktMon_EtherType(this);
+	UINT16 VlanId;
+	[DataFieldByteOrder = BigEndian]IPv6Address DestinationIP;
+	[DataFieldByteOrder = BigEndian]IPv6Address SourceIP;
+	UINT8 Protocol = PktMon_IPProtocol(this);
+	UINT16 DestinationPort;
+	UINT16 SourcePort;
+	PktMon_TCPFlags TCPFlags;
+	UINT64 PktGroupId;
+	UINT16 PktCount;
+	UINT16 AppearanceCount;
+	UINT16 DirTag = PktMon_PacketDirectionTag(this);
+	UINT16 PacketType = PktMon_PacketType(this);
+	UINT16 ComponentId;
+	UINT16 EdgeId;
+	UINT16 FilterId;
+	UINT32 DropReason = PktMon_DropReason(this);
+	UINT32 DropLocation;
+}
+Struct PktMon_FramePayload = FormatString("PktGroupId %s, PktNumber %s, Appearance %s, Direction %s, Type %s, Component %s, Edge %s, Filter %s, OriginalSize %s, LoggedSize %s", PktGroupId.ToString, PktNumber.ToString, AppearanceCount.ToString, DirTag.ToString, PacketType.ToString, ComponentId.ToString, EdgeId.ToString, FilterId.ToString, OriginalPayloadSize.ToString, LoggedPayloadSize.ToString)
+{
+	UINT64 PktGroupId;
+	UINT16 PktNumber;
+	UINT16 AppearanceCount;
+	UINT16 DirTag = PktMon_PacketDirectionTag(this);
+	UINT16 PacketType = PktMon_PacketType(this);
+	UINT16 ComponentId;
+	UINT16 EdgeId;
+	UINT16 FilterId;
+	UINT32 DropReason = PktMon_DropReason(this);
+	UINT32 DropLocation;
+	UINT16 OriginalPayloadSize;
+	UINT16 LoggedPayloadSize;
+    [DataFieldByteOrder = BigEndian]
+    ETHERNET Ethernet;
+}
+Struct PktMon_FrameDropPayload = FormatString("Drop: PktGroupId %s, PktNumber %s, Appearance %s, Direction %s, Type %s, Component %s, Edge %s, Filter %s, DropReason %s, DropLocation %s, OriginalSize %s, LoggedSize %s", PktGroupId.ToString, PktNumber.ToString, AppearanceCount.ToString, DirTag.ToString, PacketType.ToString, ComponentId.ToString, EdgeId.ToString, FilterId.ToString, DropReason.ToString, DropLocation.ToString, OriginalPayloadSize.ToString, LoggedPayloadSize.ToString)
+{
+	UINT64 PktGroupId;
+	UINT16 PktNumber;
+	UINT16 AppearanceCount;
+	UINT16 DirTag = PktMon_PacketDirectionTag(this);
+	UINT16 PacketType = PktMon_PacketType(this);
+	UINT16 ComponentId;
+	UINT16 EdgeId;
+	UINT16 FilterId;
+	UINT32 DropReason = PktMon_DropReason(this);
+	UINT32 DropLocation;
+	UINT16 OriginalPayloadSize;
+	UINT16 LoggedPayloadSize;
+    [DataFieldByteOrder = BigEndian]
+    ETHERNET Ethernet;
+}
+Struct PktMon_PktNblInfo = FormatString("TcpIpChecksum %s, TcpLargeSend %s, Ieee8021Q %s, HashInfo %s, HashValue %s, VirtualSubnetInfo %s, TcpRecvSegCoalesceInfo %s, NrtNameResolutionId %s, TcpSendOffloadsSupplementalInfo %s, SwitchForwardingDetail %s, GftOffloadInfo %s, GftFlowEntryId %s, PktGroupId %s, PktNumber %s, Appearance %s, Direction %s, Type %s, Component %s, Edge %s, Filter, %s", TcpIpChecksum.ToString, TcpLargeSend.ToString, Ieee8021Q.ToString, HashInfo.ToString, HashValue.ToString, VirtualSubnetInfo.ToString, TcpRecvSegCoalesceInfo.ToString, NrtNameResolutionId.ToString, TcpSendOffloadsSupplementalInfo.ToString, SwitchForwardingDetail.ToString, GftOffloadInfo.ToString, GftFlowEntryId.ToString, PktGroupId.ToString, PktNumber.ToString, AppearanceCount.ToString, DirTag.ToString, PacketType.ToString, ComponentId.ToString, EdgeId.ToString, FilterId.ToString)
+{
+	UINT64 PktGroupId;
+	UINT16 PktNumber;
+	UINT16 AppearanceCount;
+	UINT16 DirTag = PktMon_PacketDirectionTag(this);
+	UINT16 PacketType = PktMon_PacketType(this);
+	UINT16 ComponentId;
+	UINT16 EdgeId;
+	UINT16 FilterId;
+	UINT32 DropReason = PktMon_DropReason(this);
+	UINT32 DropLocation;
+	EtlPtr TcpIpChecksum;
+	EtlPtr TcpLargeSend;
+	EtlPtr Ieee8021Q;
+	EtlPtr HashInfo;
+	EtlPtr HashValue;
+	EtlPtr VirtualSubnetInfo;
+	EtlPtr TcpRecvSegCoalesceInfo;
+	EtlPtr NrtNameResolutionId;
+	EtlPtr TcpSendOffloadsSupplementalInfo;
+	UINT64 SwitchForwardingDetail;
+	UINT64 GftOffloadInfo;
+	UINT64 GftFlowEntryId;
+}
+Struct PktMon_PktDropNblInfo = FormatString("Drop: TcpIpChecksum %s, TcpLargeSend %s, Ieee8021Q %s, HashInfo %s, HashValue %s, VirtualSubnetInfo %s, TcpRecvSegCoalesceInfo %s, NrtNameResolutionId %s, TcpSendOffloadsSupplementalInfo %s, SwitchForwardingDetail %s, GftOffloadInfo %s, GftFlowEntryId %s, PktGroupId %s, PktNumber %s, Appearance %s, Direction %s, Type %s, Component %s, Edge %s, Filter, %s, DropReason %s, DropLocation %s", TcpIpChecksum.ToString, TcpLargeSend.ToString, Ieee8021Q.ToString, HashInfo.ToString, HashValue.ToString, VirtualSubnetInfo.ToString, TcpRecvSegCoalesceInfo.ToString, NrtNameResolutionId.ToString, TcpSendOffloadsSupplementalInfo.ToString, SwitchForwardingDetail.ToString, GftOffloadInfo.ToString, GftFlowEntryId.ToString, PktGroupId.ToString, PktNumber.ToString, AppearanceCount.ToString, DirTag.ToString, PacketType.ToString, ComponentId.ToString, EdgeId.ToString, FilterId.ToString, DropReason.ToString, DropLocation.ToString)
+{
+	UINT64 PktGroupId;
+	UINT16 PktNumber;
+	UINT16 AppearanceCount;
+	UINT16 DirTag = PktMon_PacketDirectionTag(this);
+	UINT16 PacketType = PktMon_PacketType(this);
+	UINT16 ComponentId;
+	UINT16 EdgeId;
+	UINT16 FilterId;
+	UINT32 DropReason = PktMon_DropReason(this);
+	UINT32 DropLocation;
+	EtlPtr TcpIpChecksum;
+	EtlPtr TcpLargeSend;
+	EtlPtr Ieee8021Q;
+	EtlPtr HashInfo;
+	EtlPtr HashValue;
+	EtlPtr VirtualSubnetInfo;
+	EtlPtr TcpRecvSegCoalesceInfo;
+	EtlPtr NrtNameResolutionId;
+	EtlPtr TcpSendOffloadsSupplementalInfo;
+	UINT64 SwitchForwardingDetail;
+	UINT64 GftOffloadInfo;
+	UINT64 GftFlowEntryId;
+}
+[RegisterBefore(EventDescriptor.DefaultKeyword, MicrosoftWindowsPktMon_Keyword, "{4d4f80d9-c8bd-4d73-bb5b-19c90402c5ac}")]
+struct PktMon_MicrosoftWindowsPktMon_Keyword
+{
+	UINT64 Config:1 = FormatString("   (%s) %s", this.ToBitString, this? "KW_CONFIG":"");
+	UINT64 Rundown:1 = FormatString("  (%s) %s", this.ToBitString, this? "KW_RUNDOWN":"");
+	UINT64 NblParsed:1 = FormatString("(%s) %s", this.ToBitString, this? "KW_NBL_PARSED":"");
+	UINT64 NblInfo:1 = FormatString("  (%s) %s", this.ToBitString, this? "KW_NBL_INFO":"");
+	UINT64 Payload:1 = FormatString("  (%s) %s", this.ToBitString, this? "KW_PKT_PAYLOAD":"");
+	UINT64 Reserved1:59 = FormatString("(%s)", this.ToBitString);
+}

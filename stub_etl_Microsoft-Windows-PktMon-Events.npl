@@ -1,0 +1,17 @@
+//#  ** Microsoft Windows Protocol Parser **
+//#  (c) 2009 Microsoft Corporation
+//#
+//#  Title:       Microsoft-Windows-Microsoft-Windows-PktMon-Events
+//#
+//#  Details:     [Stub Parser]
+//#
+//#  References:  Microsoft-Windows-PktMon-Events.man
+//#
+//#  Comments:    
+//#
+//####
+[RegisterBefore(NetEvent.UserData, MicrosoftWindowsPktMon, "{4d4f80d9-c8bd-4d73-bb5b-19c90402c5ac}")]
+Protocol PktMon_MicrosoftWindowsPktMon = ConstStubNoticeWindows
+{
+	Blob(FrameLength - FrameOffset) Blob;
+}

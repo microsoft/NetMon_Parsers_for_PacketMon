@@ -431,8 +431,16 @@ Struct PktMon_FramePayload = FormatString("PktGroupId %s, PktNumber %s, Appearan
 	UINT32 DropLocation;
 	UINT16 OriginalPayloadSize;
 	UINT16 LoggedPayloadSize;
-    [DataFieldByteOrder = BigEndian]
-    ETHERNET Ethernet;
+	Switch (PacketType)
+	{
+		case 1:
+		[DataFieldByteOrder = BigEndian]
+		ETHERNET Ethernet;
+
+		case 2:
+		[DataFieldByteOrder = BigEndian]
+		WIFI WiFi;
+	}
 }
 Struct PktMon_FrameDropPayload = FormatString("Drop: PktGroupId %s, PktNumber %s, Appearance %s, Direction %s, Type %s, Component %s, Edge %s, Filter %s, DropReason %s, DropLocation %s, OriginalSize %s, LoggedSize %s", PktGroupId.ToString, PktNumber.ToString, AppearanceCount.ToString, DirTag.ToString, PacketType.ToString, ComponentId.ToString, EdgeId.ToString, FilterId.ToString, DropReason.ToString, DropLocation.ToString, OriginalPayloadSize.ToString, LoggedPayloadSize.ToString)
 {
@@ -448,8 +456,16 @@ Struct PktMon_FrameDropPayload = FormatString("Drop: PktGroupId %s, PktNumber %s
 	UINT32 DropLocation;
 	UINT16 OriginalPayloadSize;
 	UINT16 LoggedPayloadSize;
-    [DataFieldByteOrder = BigEndian]
-    ETHERNET Ethernet;
+	Switch (PacketType)
+	{
+		case 1:
+		[DataFieldByteOrder = BigEndian]
+		ETHERNET Ethernet;
+
+		case 2:
+		[DataFieldByteOrder = BigEndian]
+		WIFI WiFi;
+	}
 }
 Struct PktMon_PktNblInfo = FormatString("TcpIpChecksum %s, TcpLargeSend %s, Ieee8021Q %s, HashInfo %s, HashValue %s, VirtualSubnetInfo %s, TcpRecvSegCoalesceInfo %s, NrtNameResolutionId %s, TcpSendOffloadsSupplementalInfo %s, SwitchForwardingDetail %s, GftOffloadInfo %s, GftFlowEntryId %s, PktGroupId %s, PktNumber %s, Appearance %s, Direction %s, Type %s, Component %s, Edge %s, Filter, %s", TcpIpChecksum.ToString, TcpLargeSend.ToString, Ieee8021Q.ToString, HashInfo.ToString, HashValue.ToString, VirtualSubnetInfo.ToString, TcpRecvSegCoalesceInfo.ToString, NrtNameResolutionId.ToString, TcpSendOffloadsSupplementalInfo.ToString, SwitchForwardingDetail.ToString, GftOffloadInfo.ToString, GftFlowEntryId.ToString, PktGroupId.ToString, PktNumber.ToString, AppearanceCount.ToString, DirTag.ToString, PacketType.ToString, ComponentId.ToString, EdgeId.ToString, FilterId.ToString)
 {
